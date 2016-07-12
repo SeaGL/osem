@@ -103,11 +103,15 @@ describe 'User' do
       it{ should be_able_to(:create, Subscription.new(user_id: user.id)) }
       it{ should be_able_to(:destroy, subscription) }
 
-      it{ should be_able_to(:manage, user_event_with_cfp) }
+      it{ should be_able_to(:update, user_event_with_cfp) }
+      it{ should be_able_to(:show, user_event_with_cfp) }
+      it{ should be_able_to(:delete, user_event_with_cfp) }
       it{ should_not be_able_to(:new, Event.new(program: program_without_cfp)) }
       it{ should_not be_able_to(:create, Event.new(program: program_without_cfp)) }
-      it{ should_not be_able_to(:new, Event.new(program: program_with_cfp, event_users: [event_user2])) }
-      it{ should_not be_able_to(:create, Event.new(program: program_with_cfp, event_users: [event_user2])) }
+      # TODO: At moment it's not possible to manually add someone else as event_user
+      # This needs some more work once we allow user to add event_user
+      it 'should_not be_able to :new, Event.new(program: program_with_cfp, event_users: [event_user2])'
+      it 'should_not be_able to :create, Event.new(program: program_with_cfp, event_users: [event_user2])'
 
       it{ should_not be_able_to(:manage, event_unconfirmed) }
 
@@ -171,7 +175,8 @@ describe 'User' do
         should be_able_to(:destroy, my_venue)
       end
 
-      it{ should be_able_to([:create, :new], Conference) }
+      it{ should be_able_to(:new, Conference) }
+      it{ should be_able_to(:create, Conference) }
       it{ should be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should be_able_to(:manage, my_conference.splashpage) }
@@ -235,7 +240,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'cfp', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:new, Conference.new) }
+      it{ should_not be_able_to(:create, Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
@@ -293,7 +299,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'info_desk', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:new, Conference.new) }
+      it{ should_not be_able_to(:create, Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
@@ -351,7 +358,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'volunteers_coordinator', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:new, Conference.new) }
+      it{ should_not be_able_to(:create, Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }

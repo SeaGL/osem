@@ -36,7 +36,7 @@
       %section#program
         = render 'schedule_splashpage'
 
-    - if @program.cfp_open? and @conference.splashpage.include_cfp
+    - if @conference.program.cfp_open? and @conference.splashpage.include_cfp
       %section#callforpapers
         = render 'call_for_paper'
 
@@ -63,19 +63,45 @@
     // grmbl
     = render 'footer'
 
-- content_for :script_head do
-  :javascript
-    var triangle_tcs = tinycolor("#{@conference.color}").monochromatic();
-    var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
-    $(function () {
-      $(document).ready(function() {
-        var triangle_width = document.body.clientWidth;
-        var triangle_height = ($( "#banner" ).height() + 200 );
-        var pattern = Trianglify({ width: triangle_width,
-                                   height: triangle_height,
-                                   cell_size: 100,
-                                   x_colors: triangle_colors
-                                  });
-        $('#banner').css('background-image', 'url("' + pattern.png() + '")');
+// If the conference splashpage has a banner image use it instead of trianglify
+- unless @conference.splashpage.picture_url.blank?
+  - content_for :script_head do
+    :javascript
+      $(function () {
+        $(document).ready(function() {
+          $('#banner').css('background-image', 'url("#{@conference.splashpage.picture_url}")');
+        });
       });
-    });
+- else
+  - content_for :script_head do
+    :javascript
+      var triangle_tcs = tinycolor("#{@conference.color}").monochromatic();
+      var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
+      $(function () {
+        $(document).ready(function() {
+          var triangle_width = document.body.clientWidth;
+          var triangle_height = ($( "#banner" ).height() + 200 );
+          var pattern = Trianglify({ width: triangle_width,
+                                     height: triangle_height,
+                                     cell_size: 100,
+                                     x_colors: triangle_colors
+                                    });
+          $('#banner').css('background-image', 'url("' + pattern.png() + '")');
+        });
+      });
+
+- unless @conference.splashpage.banner_attribution.blank?
+  - content_for :footer do
+    <br />
+    = @conference.splashpage.banner_attribution
+
+// Set the navigation background color as the conference color
+- unless @conference.color.blank?
+  - content_for :script_head do
+    :javascript
+      $(function () {
+        $(document).ready(function() {
+          $('.navbar-default').css('background-color', '#{@conference.color}');
+          $('.navbar-default').css('border-bottom', '1px solid #333');
+        });
+      });

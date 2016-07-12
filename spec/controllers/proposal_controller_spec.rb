@@ -416,6 +416,24 @@ describe ProposalController do
       before { event.update_attributes(state: 'unconfirmed') }
 
       context 'confirmed successfully' do
+        describe 'when require_registration is set' do
+          before :each do
+            event.require_registration = true
+            event.max_attendees = nil
+            event.save!
+            patch :confirm, conference_id: conference.short_title, id: event.id
+          end
+
+          it 'assigns url variable' do
+            expect(assigns(:url)).to eq '/conference/lama101/program/proposal/1'
+          end
+
+          it 'change state of event to confirmed' do
+            event.reload
+            expect(event.confirmed?).to be true
+          end
+        end
+
         describe 'general actions' do
           before { patch :confirm, conference_id: conference.short_title, id: event.id }
 
@@ -450,7 +468,7 @@ describe ProposalController do
           end
 
           it 'redirects to new registration path' do
-            expect(response).to redirect_to new_conference_conference_registrations_path conference.short_title
+            expect(response).to redirect_to new_conference_conference_registration_path conference.short_title
           end
 
           it 'shows flash alert asking user to register' do

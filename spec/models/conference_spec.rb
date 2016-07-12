@@ -366,8 +366,8 @@ describe Conference do
 
   describe 'program hours and minutes' do
     before(:each) do
-      @long = create(:event_type, length: 100)
-      @short = create(:event_type, length: 10)
+      @long = create(:event_type, length: 120)
+      @short = create(:event_type, length: 15)
     end
 
     describe '#actual_program_minutes' do
@@ -376,8 +376,8 @@ describe Conference do
         create(:event, program: subject.program, event_type: @long)
         create(:event, program: subject.program, event_type: @short)
         create(:event, program: subject.program, event_type: @short)
-        result_in_hours = 4
-        result_in_minutes = 220
+        result_in_hours = 5
+        result_in_minutes = 270
         expect(subject.current_program_hours).to eq(result_in_hours)
         expect(subject.current_program_minutes).to eq(result_in_minutes)
       end
@@ -397,7 +397,7 @@ describe Conference do
         create(:event, program: subject.program, event_type: @short, created_at: Time.now - 3.days)
         create(:event, program: subject.program, event_type: @short)
         result_in_hours = 2
-        result_in_minutes = 110
+        result_in_minutes = 135
         expect(subject.new_program_hours(Time.now - 5.minutes)).to eq(result_in_hours)
         expect(subject.new_program_minutes(Time.now - 5.minutes)).to eq(result_in_minutes)
       end
@@ -426,7 +426,7 @@ describe Conference do
         result = {}
         result['Hard'] = {
           'value' => 1,
-          'color' => '#ffffff',
+          'color' => '#FFFFFF',
         }
         result['Easy'] = {
           'value' => 2,
@@ -476,7 +476,7 @@ describe Conference do
         result = {}
         result['Hard'] = {
           'value' => 1,
-          'color' => '#ffffff'
+          'color' => '#FFFFFF'
         }
         result['Easy'] = {
           'value' => 1,
@@ -526,7 +526,7 @@ describe Conference do
         }
         result['Lecture'] = {
           'value' => 1,
-          'color' => '#ffffff',
+          'color' => '#FFFFFF',
         }
         expect(subject.event_type_distribution).to eq(result)
       end
@@ -572,7 +572,7 @@ describe Conference do
         result = {}
         result['Lecture'] = {
           'value' => 1,
-          'color' => '#ffffff'
+          'color' => '#FFFFFF'
         }
         result['Workshop'] = {
           'value' => 1,
@@ -622,7 +622,7 @@ describe Conference do
         }
         result['Track Two'] = {
           'value' => 1,
-          'color' => '#ffffff',
+          'color' => '#FFFFFF',
         }
         expect(subject.tracks_distribution).to eq(result)
       end
@@ -672,7 +672,7 @@ describe Conference do
         }
         result['Track Two'] = {
           'value' => 1,
-          'color' => '#ffffff'
+          'color' => '#FFFFFF'
         }
         expect(subject.tracks_distribution(:confirmed)).to eq(result)
       end

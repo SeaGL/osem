@@ -1,5 +1,15 @@
 module ApplicationHelper
   ##
+  # Gets an EventType object, and returns its length in timestamp format (HH:MM)
+  # ====Gets
+  # * +Integer+ -> 30
+  # ====Returns
+  # * +String+ -> "00:30"
+  def length_timestamp(length)
+    [length / 60, length % 60].map { |t| t.to_s.rjust(2, '0') }.join(':')
+  end
+
+  ##
   # ====Returns
   # * +String+ -> number of registrations / max allowed registrations
   def registered_text(event)
@@ -15,12 +25,6 @@ module ApplicationHelper
   # Set devise_mapping for devise so that we can call the devise help links (views/devise/shared/_links) from anywhere (eg sign_up form in proposal#new)
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
-  end
-
-  def pluralize_without_count(count, noun, text = nil)
-    if count != 0
-      count == 1 ? "#{noun}#{text}" : "#{noun.pluralize}#{text}"
-    end
   end
 
   def event_status_icon(event)
@@ -47,10 +51,6 @@ module ApplicationHelper
     else
       'progress-bar-danger'
     end
-  end
-
-  def format_role(role)
-    role.parameterize.underscore
   end
 
   def target_progress_color(progress)
@@ -143,22 +143,6 @@ module ApplicationHelper
     end
   end
 
-  def getdatetime(registration, field)
-    if registration.send(field.to_sym).kind_of?(String)
-      DateTime.parse(registration.send(field.to_sym)).strftime('%d %b %H:%M') if registration.send(field.to_sym)
-    else
-      registration.send(field.to_sym).strftime('%d %b %H:%M') if registration.send(field.to_sym)
-    end
-  end
-
-  def getdate(var)
-    if var.kind_of?(String)
-      DateTime.parse(var).strftime('%a, %d %b')
-    else
-      var.strftime('%a, %d %b')
-    end
-  end
-
   def show_time(length)
     h = length / 60
     min = length - h * 60
@@ -172,10 +156,6 @@ module ApplicationHelper
     else
       "#{min} min"
     end
-  end
-
-  def pre_registered(event)
-    @conference.program.events.joins(:registrations).where('events.id = ?', event.id)
   end
 
   def add_association_link(association_name, form_builder, div_class, html_options = {})
@@ -303,15 +283,56 @@ module ApplicationHelper
     end
   end
 
-  def sign_up_path
-    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-      new_user_ichain_registration_path
-    else
-      new_user_registration_path
-    end
-  end
-
   def unread_notifications(user)
     Comment.accessible_by(current_ability).find_since_last_login(user)
+  end
+
+  # Returns black or white deppending on what of them contrast more with the
+  # given color. Useful to print text in a coloured background.
+  # hexcolor is a hex color of 7 characters, being the first one '#'.
+  # Reference: https://24ways.org/2010/calculating-color-contrast
+  def contrast_color(hexcolor)
+    r = hexcolor[1..2].to_i(16)
+    g = hexcolor[3..4].to_i(16)
+    b = hexcolor[5..6].to_i(16)
+    yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
+    (yiq >= 128) ? 'black' : 'white'
+  end
+
+  def td_height(rooms)
+    td_height = 500 / rooms.length
+    # we want all least 3 lines in events and td padding = 3px, speaker picture height >= 25px
+    # and line-height = 17px => (17 * 3) + 6 + 25 = 82
+    td_height < 82 ? 82 : td_height
+  end
+
+  def room_height(rooms)
+    room_lines(rooms) * 17
+  end
+
+  def room_lines(rooms)
+    # line-height = 17px, td padding = 3px
+    (td_height(rooms) - 6) / 17
+  end
+
+  def event_height(rooms)
+    event_lines(rooms) * 17
+  end
+
+  def event_lines(rooms)
+    # line-height = 17px, td padding = 3px, speaker picture height >= 25px
+    (td_height(rooms) - 31) / 17
+  end
+
+  def speaker_height(rooms)
+    # td padding = 3px
+    speaker_height = td_height(rooms) - 6 - event_height(rooms)
+    # The speaker picture is a circle and the width must be <= 37 to avoid making the cell widther
+    speaker_height >= 37 ? 37 : speaker_height
+  end
+
+  def speaker_width(rooms)
+    # speaker picture padding: 4px 2px; and we want the picture to be a circle
+    speaker_height(rooms) - 4
   end
 end

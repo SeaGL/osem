@@ -33,10 +33,10 @@ Osem::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -66,21 +66,22 @@ Osem::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Set the detault url for action mailer
-  config.action_mailer.default_url_options = { host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000') }
+  # Set the detault url and from address for action mailer
+  config.action_mailer.default_url_options = {host: 'osem.seagl.org'}
+  config.action_mailer.default_options = {from: 'osem@seagl.org'}
 
   # Set the smtp configuration of your service provider
   # For further details of each configuration checkout: http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
   config.action_mailer.smtp_settings = {
-    address:              ENV['OSEM_SMTP_ADDRESS'],
-    port:                 ENV['OSEM_SMTP_PORT'],
-    user_name:            ENV['OSEM_SMTP_USERNAME'],
-    password:             ENV['OSEM_SMTP_PASSWORD'],
-    authentication:       ENV['OSEM_SMTP_AUTHENTICATION'].try(:to_sym),
-    domain:		  ENV['OSEM_SMTP_DOMAIN'],
-    enable_starttls_auto: true
+    address: ENV['OSEM_SMTP_ADDRESS'],
+    port: ENV['OSEM_SMTP_PORT'],
+    domain: ENV['OSEM_SMTP_DOMAIN'],
+    user_name:ENV['OSEM_SMTP_USERNAME'],
+    password: ENV['OSEM_SMTP_PASSWORD'],
+    authentication: :plain,
+    enable_starttls_auto: true,
   }
 
   # Set the secret_key_base from the env, if not set by any other means
-  config.secret_key_base ||= ENV["SECRET_KEY_BASE"]
+  config.secret_key_base ||= ENV['SECRET_KEY_BASE']
 end

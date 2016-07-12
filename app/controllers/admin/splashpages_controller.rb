@@ -43,11 +43,12 @@ module Admin
     private
 
     def splashpage_params
-      params.require(:splashpage).permit(:public,
+      params.require(:splashpage).permit(:public, :show_by_default,
                                          :include_tracks, :include_program, :include_cfp,
                                          :include_venue, :include_registrations,
                                          :include_tickets, :include_lodgings,
-                                         :include_sponsors, :include_social_media)
+                                         :include_sponsors, :include_social_media,
+                                         :picture, :picture_cache, :banner_attribution)
     end
   end
 end

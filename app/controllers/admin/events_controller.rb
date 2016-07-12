@@ -21,6 +21,9 @@ module Admin
       @difficulty_levels = @program.difficulty_levels
       @machine_states = @events.state_machine.states.map
       @event_types = @program.event_types
+      @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
+      @event_distribution = @conference.event_distribution
+      @scheduled_event_distribution = @conference.scheduled_event_distribution
 
       @mystates = []
       @mytypes = []
@@ -92,6 +95,7 @@ module Admin
       @comment_count = @event.comment_threads.count
       @user = @event.submitter
       @url = admin_conference_program_event_path(@conference.short_title, @event)
+      @languages = @program.languages_list
     end
 
     def comment

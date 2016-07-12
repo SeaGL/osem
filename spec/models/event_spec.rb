@@ -24,30 +24,6 @@ describe Event do
     it { is_expected.to validate_presence_of(:program) }
     it { is_expected.to validate_presence_of(:event_type) }
 
-    describe '#max_attendees_and_require_registration' do
-      it 'allows user to set max_attendees, only if require_registration is set' do
-        event.require_registration = true
-        event.max_attendees = 2
-
-        expect(event.valid?).to eq true
-      end
-
-      it 'does not allow max_attendees to be set without require_registration' do
-        event.max_attendees = 2
-
-        expect(event.valid?).to eq false
-        expect(event.errors[:require_registration]).to eq ['must be enabled, when you set max_attendees']
-      end
-
-      it 'does not allow require_registration to be set without max_attendees' do
-        event.require_registration = true
-        event.max_attendees = nil
-
-        expect(event.valid?).to eq false
-        expect(event.errors[:max_attendees]).to eq ['must be enabled, when you set require_registration']
-      end
-    end
-
     describe 'max_attendees_no_more_than_room_size' do
       before :each do
         event.room = create(:room, size: 3)
@@ -148,18 +124,37 @@ describe Event do
   describe '#registration_possible?' do
     describe 'when the event requires registration' do
       before :each do
+        event.state = 'confirmed'
         event.require_registration = true
         event.max_attendees = 3
         event.registrations << create(:registration)
+        event.save!
+      end
+
+      it 'returns true, if the event has no max_attendees' do
+        event.max_attendees = nil
+        event.save!
+        expect(event.registration_possible?).to eq true
       end
 
       it 'returns true, if the limit has not been reached' do
         expect(event.registration_possible?).to eq true
       end
 
+      it 'returns true, if the event is confirmed' do
+        event.save!
+        expect(event.registration_possible?).to eq true
+      end
+
       it 'returns false, if the limit has been reached' do
         event.registrations << create(:registration)
         event.registrations << create(:registration)
+        expect(event.registration_possible?).to eq false
+      end
+
+      it 'returns false, if the event is not confirmed' do
+        event.state = 'new'
+        event.save!
         expect(event.registration_possible?).to eq false
       end
     end
@@ -221,7 +216,7 @@ describe Event do
   describe '#abstract_word_count' do
     it 'counts words in abstract' do
       event = build(:event)
-      expect(event.abstract_word_count).to eq(233)
+      expect(event.abstract_word_count).to eq(event.abstract.to_s.split.size)
       event.update_attributes!(abstract: 'abstract.')
       expect(event.abstract_word_count).to eq(1)
     end
@@ -241,7 +236,7 @@ describe Event do
       json_hash = event.as_json(nil)
 
       expect(json_hash[:room_guid]).to eq(event.room.guid)
-      expect(json_hash[:track_color]).to eq('#efefef')
+      expect(json_hash[:track_color]).to eq('#EFEFEF')
       expect(json_hash[:length]).to eq(30)
     end
 
@@ -250,7 +245,7 @@ describe Event do
       json_hash = event.as_json(nil)
 
       expect(json_hash[:room_guid]).to be_nil
-      expect(json_hash[:track_color]).to eq('#ffffff')
+      expect(json_hash[:track_color]).to eq('#FFFFFF')
       expect(json_hash[:length]).to eq(25)
     end
   end

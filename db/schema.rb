@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160501201606) do
+ActiveRecord::Schema.define(version: 20160624151257) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -80,27 +80,23 @@ ActiveRecord::Schema.define(version: 20160501201606) do
   end
 
   create_table "conferences", force: :cascade do |t|
-    t.string   "guid",                                  null: false
-    t.string   "title",                                 null: false
-    t.string   "short_title",                           null: false
-    t.string   "timezone",                              null: false
-    t.date     "start_date",                            null: false
-    t.date     "end_date",                              null: false
+    t.string   "guid",                               null: false
+    t.string   "title",                              null: false
+    t.string   "short_title",                        null: false
+    t.string   "timezone",                           null: false
+    t.date     "start_date",                         null: false
+    t.date     "end_date",                           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
     t.integer  "revision"
-    t.boolean  "use_vpositions",        default: false
-    t.boolean  "use_vdays",             default: false
-    t.boolean  "use_difficulty_levels", default: false
+    t.boolean  "use_vpositions",     default: false
+    t.boolean  "use_vdays",          default: false
     t.boolean  "use_volunteers"
     t.string   "color"
     t.text     "events_per_week"
     t.text     "description"
-    t.integer  "registration_limit",    default: 0
+    t.integer  "registration_limit", default: 0
     t.string   "picture"
   end
 
@@ -204,7 +200,6 @@ ActiveRecord::Schema.define(version: 20160501201606) do
     t.integer  "event_type_id"
     t.string   "title",                                        null: false
     t.string   "subtitle"
-    t.integer  "time_slots"
     t.string   "state",                        default: "new", null: false
     t.string   "progress",                     default: "new", null: false
     t.string   "language"
@@ -212,10 +207,6 @@ ActiveRecord::Schema.define(version: 20160501201606) do
     t.text     "abstract"
     t.text     "description"
     t.boolean  "public",                       default: true
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
     t.text     "proposal_additional_speakers"
     t.integer  "track_id"
     t.integer  "room_id"
@@ -266,6 +257,7 @@ ActiveRecord::Schema.define(version: 20160501201606) do
     t.boolean  "schedule_fluid",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "languages"
   end
 
   create_table "qanswers", force: :cascade do |t|
@@ -359,6 +351,11 @@ ActiveRecord::Schema.define(version: 20160501201606) do
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
     t.boolean  "show_by_default"
+    t.string   "banner_file_name"
+    t.string   "banner_content_type"
+    t.integer  "banner_file_size"
+    t.datetime "banner_updated_at"
+    t.string   "banner_attribution"
   end
 
   create_table "sponsors", force: :cascade do |t|
@@ -366,9 +363,6 @@ ActiveRecord::Schema.define(version: 20160501201606) do
     t.text     "description"
     t.string   "website_url"
     t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
     t.integer  "sponsorship_level_id"
     t.integer  "conference_id"
     t.datetime "created_at"
@@ -496,9 +490,6 @@ ActiveRecord::Schema.define(version: 20160501201606) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
     t.string   "street"
     t.string   "postalcode"
     t.string   "city"

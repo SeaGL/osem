@@ -5,8 +5,14 @@ class ConferenceController < ApplicationController
   load_resource :program, through: :conference, singleton: true, except: :index
 
   def index
-    @current = Conference.where('end_date >= ?', Date.current).order('start_date ASC')
+    @current = Conference.where('end_date >= ?', Date.current).reorder(start_date: :asc)
     @antiquated = @conferences - @current
+
+    # If one of the current conferences is set to be shown by default, redirect to it
+    default_splashpage = Splashpage.find_by show_by_default: true, public: true
+    return unless default_splashpage
+
+    redirect_to conference_path(default_splashpage.conference.short_title)
   end
 
   def show; end
@@ -14,7 +20,12 @@ class ConferenceController < ApplicationController
   def schedule
     @rooms = @conference.venue.rooms if @conference.venue
     @events = @conference.program.events
+    @events_xml = @events.scheduled.order(start_time: :asc).group_by{ |event| event.start_time.to_date }
     @dates = @conference.start_date..@conference.end_date
+    @step_minutes = EventType::LENGTH_STEP.minutes
+    @conf_start = 9
+    conf_end = 20
+    @conf_period = conf_end - @conf_start
 
     if @dates == Date.current
       @today = Date.current.strftime('%Y-%m-%d')

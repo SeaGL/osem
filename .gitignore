@@ -1,8 +1,5 @@
 /db/test.sqlite3-journal
-config/application.rb
-config/config.yml
-config/secrets.yml
-config/database.yml
+config/env_vars.rb
 config/piwik.yml
 /vendor/cache
 /vendor/cache-old

@@ -559,11 +559,11 @@ class Conference < ActiveRecord::Base
     result = {}
 
     if state
-      count_yes = program.events.select(:diversity).where('diversity = ?', 1).where('state = ?', state).group(:diversity).count[true]
-      count_no  = program.events.select(:diversity).where('diversity = ?', 0).where('state = ?', state).group(:diversity).count[false]
+      count_yes = program.events.select(:diversity).where(diversity: true).where('state = ?', state).group(:diversity).count[true]
+      count_no  = program.events.select(:diversity).where(diversity: false).where('state = ?', state).group(:diversity).count[false]
     else
-      count_yes = program.events.select(:diversity).where('diversity = ?', 1).group(:diversity).count[true]
-      count_no  = program.events.select(:diversity).where('diversity = ?', 0).group(:diversity).count[false]
+      count_yes = program.events.select(:diversity).where(diversity: true).group(:diversity).count[true]
+      count_no  = program.events.select(:diversity).where(diversity: false).group(:diversity).count[false]
     end
 
     if count_yes.nil?

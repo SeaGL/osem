@@ -213,16 +213,36 @@ class Event < ActiveRecord::Base
   #
   # Returns +Hash+
   def progress_status
-    {
-      registered: speakers.all? { |speaker| program.conference.user_registered? speaker },
-      commercials: commercials.any?,
-      biographies: speakers.all? { |speaker| !speaker.biography.blank? },
-      subtitle: !subtitle.blank?,
-      track: (!track.blank? unless program.tracks.empty?),
-      difficulty_level: !difficulty_level.blank?,
+    status = {
       title: true,
       abstract: true
-    }.with_indifferent_access
+    }
+
+    if self.program.speaker_proposals_req_speaker_event_reg
+      status.merge!(registered: speakers.all? { |speaker| program.conference.user_registered? speaker })
+    end
+
+    if self.program.speaker_proposals_req_bio
+      status.merge!(biographies: speakers.all? { |speaker| !speaker.biography.blank? })
+    end
+
+    if self.program.speaker_proposals_req_subtitle
+      status.merge!(subtitle: !subtitle.blank?)
+    end
+
+    if self.program.speaker_proposals_req_commercial
+      status.merge!(commercials: commercials.any?)
+    end
+
+    if self.program.speaker_proposals_req_track
+      status.merge!(track: (!track.blank? unless program.tracks.empty?))
+    end
+
+    if self.program.speaker_proposals_req_difficulty_level
+      status.merge!(difficulty_level: !difficulty_level.blank?)
+    end
+
+    status.with_indifferent_access
   end
 
   ##

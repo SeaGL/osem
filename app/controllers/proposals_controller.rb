@@ -144,7 +144,7 @@ class ProposalsController < ApplicationController
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
                                   :title, :subtitle, :abstract, :description,
                                   :require_registration, :max_attendees, :language,
-                                  speaker_ids: []
+                                  :diversity, speaker_ids: []
                                  )
   end
 

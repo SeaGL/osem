@@ -3,6 +3,7 @@
 class Cfp < ActiveRecord::Base
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
   belongs_to :program
+  accepts_nested_attributes_for :program
 
   validates :program_id, presence: true
   validates :start_date, :end_date, presence: true

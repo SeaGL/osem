@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170614025428) do
+ActiveRecord::Schema.define(version: 20180522011758) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -290,17 +290,23 @@ ActiveRecord::Schema.define(version: 20170614025428) do
 
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
-    t.integer  "rating",               default: 0
-    t.boolean  "schedule_public",      default: false
-    t.boolean  "schedule_fluid",       default: false
+    t.integer  "rating",                                  default: 0
+    t.boolean  "schedule_public",                         default: false
+    t.boolean  "schedule_fluid",                          default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "languages"
-    t.boolean  "blind_voting",         default: false
+    t.boolean  "blind_voting",                            default: false
     t.datetime "voting_start_date"
     t.datetime "voting_end_date"
     t.integer  "selected_schedule_id"
-    t.integer  "schedule_interval",    default: 15,    null: false
+    t.integer  "schedule_interval",                       default: 15,    null: false
+    t.boolean  "speaker_proposals_req_speaker_event_reg", default: true
+    t.boolean  "speaker_proposals_req_bio",               default: true
+    t.boolean  "speaker_proposals_req_subtitle",          default: true
+    t.boolean  "speaker_proposals_req_commercial",        default: true
+    t.boolean  "speaker_proposals_req_track",             default: true
+    t.boolean  "speaker_proposals_req_difficulty_level",  default: true
   end
 
   add_index "programs", ["selected_schedule_id"], name: "index_programs_on_selected_schedule_id"

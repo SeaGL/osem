@@ -158,6 +158,19 @@ describe Program do
     end
   end
 
+  describe 'supports configuring speaker proposal requirements' do
+    describe 'defaults to requiring everything in speaker proposals' do
+      it 'when the program is first set up' do
+        expect(program.speaker_proposals_req_speaker_event_reg).to eq true
+        expect(program.speaker_proposals_req_bio).to eq true
+        expect(program.speaker_proposals_req_subtitle).to eq true
+        expect(program.speaker_proposals_req_commercial).to eq true
+        expect(program.speaker_proposals_req_track).to eq true
+        expect(program.speaker_proposals_req_difficulty_level).to eq true
+      end
+    end
+  end
+
   describe 'excecutes before_create functions' do
     it 'and creates events_types' do
       program.destroy!

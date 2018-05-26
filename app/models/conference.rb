@@ -599,11 +599,11 @@ class Conference < ActiveRecord::Base
     result = {}
 
     if state
-      count_yes = program.events.select(:first_time).where('first_time = ?', 1).where('state = ?', state).group(:first_time).count[true]
-      count_no  = program.events.select(:first_time).where('first_time = ?', 0).where('state = ?', state).group(:first_time).count[false]
+      count_yes = program.events.select(:first_time).where(first_time: true ).where('state = ?', state).group(:first_time).count[true]
+      count_no  = program.events.select(:first_time).where(first_time: false).where('state = ?', state).group(:first_time).count[false]
     else
-      count_yes = program.events.select(:first_time).where('first_time = ?', 1).group(:first_time).count[true]
-      count_no  = program.events.select(:first_time).where('first_time = ?', 0).group(:first_time).count[false]
+      count_yes = program.events.select(:first_time).where(first_time: true ).group(:first_time).count[true]
+      count_no  = program.events.select(:first_time).where(first_time: false).group(:first_time).count[false]
     end
 
     if count_yes.nil?

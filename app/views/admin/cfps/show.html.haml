@@ -49,45 +49,27 @@
 
         %dt.tall-definition-label Speakers todo: remind to register for event
         %dd#speaker_proposals_req_speaker_event_reg
-          - if @program.speaker_proposals_req_speaker_event_reg
-            Yes
-          - else
-            No
+          = @program.speaker_proposals_req_speaker_event_reg ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to fill out bio
         %dd#speaker_proposals_req_bio
-          - if @program.speaker_proposals_req_bio
-            Yes
-          - else
-            No
+          - @program.speaker_proposals_req_bio ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add subtitle
         %dd#speaker_proposals_req_subtitle
-          - if @program.speaker_proposals_req_subtitle
-            Yes
-          - else
-            No
+          - @program.speaker_proposals_req_subtitle ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add a commercial
         %dd#speaker_proposals_req_commercial
-          - if @program.speaker_proposals_req_commercial
-            Yes
-          - else
-            No
+          - @program.speaker_proposals_req_commercial ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add track
         %dd#speaker_proposals_req_track
-          - if @program.speaker_proposals_req_track
-            Yes
-          - else
-            No
+          - @program.speaker_proposals_req_track ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add difficulty level
         %dd#speaker_proposals_req_difficulty_level
-          - if @program.speaker_proposals_req_difficulty_level
-            Yes
-          - else
-            No
+          - @program.speaker_proposals_req_difficulty_level ? 'Yes' : 'No'
   .row
     .col-md-12.text-right
       = link_to(edit_admin_conference_program_cfp_path(@conference.short_title), class: 'btn btn-primary') do

@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -Eeuxo pipefail
+
+# git restore --source='7ec4b6b' '20160512035046_add_banner_attribution_to_splashpage.rb'
+cat > 'db/migrate/20160512035046_add_banner_attribution_to_splashpage.rb' << RUBY
+class AddShowByDefaultToSplashpage < ActiveRecord::Migration[4.2]
+  def change
+    add_column :splashpages, :show_by_default, :boolean
+  end
+end
+RUBY
+
+# git restore --source='d95b82c' '20160508201501_add_banner_to_splashpage.rb'
+cat > 'db/migrate/20160508201501_add_banner_to_splashpage.rb' << RUBY
+class AddBannerToSplashpage < ActiveRecord::Migration[4.2]
+  def change
+    add_column :splashpages, :banner_file_name, :string
+    add_column :splashpages, :banner_content_type, :string
+    add_column :splashpages, :banner_file_size, :integer
+    add_column :splashpages, :banner_updated_at, :datetime
+  end
+end
+RUBY
+
+# git restore --source='985ee40' '20160501201606_add_show_by_default_to_splashpage.rb'
+cat > 'db/migrate/20160501201606_add_show_by_default_to_splashpage.rb' << RUBY
+class AddShowByDefaultToSplashpage < ActiveRecord::Migration[4.2]
+  def change
+    add_column :splashpages, :show_by_default, :boolean
+  end
+end
+RUBY
+
+rake db:migrate:status jobs:clear data:drop_all_ahoy_events data:set_conference_in_versions
+rake db:migrate:down VERSION=20160512035046 && rm 'db/migrate/20160512035046_add_banner_attribution_to_splashpage.rb'
+rake db:migrate:down VERSION=20160508201501 && rm 'db/migrate/20160508201501_add_banner_to_splashpage.rb'
+rake db:migrate:down VERSION=20160501201606 && rm 'db/migrate/20160501201606_add_show_by_default_to_splashpage.rb'
+rake db:migrate:up VERSION=20170212145523
+rake data:move_events_attributes
+rake db:migrate VERSION=20200331214534
+rake db:migrate roles:add db:migrate:status

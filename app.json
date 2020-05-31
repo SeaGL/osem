@@ -16,7 +16,7 @@
     "RACK_ENV": "production"
   },
   "scripts": {
-    "postdeploy": "bundle exec rake db:schema:load db:seed"
+    "postdeploy": "bin/postdeploy"
   },
   "formation": {
     "web": {

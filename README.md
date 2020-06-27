@@ -1,70 +1,57 @@
-This branch is a preview of [OSEM] with several prospective changes applied
-(checked when no longer necessary):
+# Trial of upstream OSEM
 
-- [x] ~~Explicitly configure database authentication in Docker Compose [#2640](https://github.com/openSUSE/osem/pull/2640)~~ Ignored
-- [x] ~~Use version range instead of OSEM_RUBY_VERSION. [#2646](https://github.com/openSUSE/osem/pull/2646)~~ Ignored
-- [x] Install missing test dependency in base image [#2647](https://github.com/openSUSE/osem/pull/2647)
-- [x] Resolve conflict between WebMock and Webdrivers [#2648](https://github.com/openSUSE/osem/pull/2648)
-- [x] ~~Work around ChromeDriver/Chromium crash [#2649](https://github.com/openSUSE/osem/pull/2649)~~ Ignored
-- [x] Decouple tests from unspecified data ordering [#2650](https://github.com/openSUSE/osem/pull/2650)
-- [x] Decouple tests from unspecified data ordering (part 2) [#2652](https://github.com/openSUSE/osem/pull/2652)
-- [ ] Fix access to the version history of organization-level roles [#2654](https://github.com/openSUSE/osem/pull/2654)
-- [x] Ignore schema.rb in RuboCop [#2655](https://github.com/openSUSE/osem/pull/2655)
-- [x] Fix bug in UserDatatable query affecting PostgreSQL [#2656](https://github.com/openSUSE/osem/pull/2656)
-- [x] Remove superfluous click to display Markdown editor [#2657](https://github.com/openSUSE/osem/pull/2657)
-- [x] Fix bug in logging of screenshots of failed tests [#2658](https://github.com/openSUSE/osem/pull/2658)
-- [x] Use Rails transactional tests [#2659](https://github.com/openSUSE/osem/pull/2659)
-- [x] Fix bug in test of animated form [#2662](https://github.com/openSUSE/osem/pull/2662)
-- [x] Update Docker Compose file format: 2.0 → 2.4 (minor) [#2663](https://github.com/openSUSE/osem/pull/2663)
-- [x] Annotate past migrations with Rails version [#2665](https://github.com/openSUSE/osem/pull/2665)
-- [x] Fix migration that fails on conferences without pictures [#2666](https://github.com/openSUSE/osem/pull/2666)
-- [x] Work around bug in migrations to non-null columns [#2667](https://github.com/openSUSE/osem/pull/2667)
-- [x] Serve precompiled assets in example Docker Compose configuration [#2673](https://github.com/openSUSE/osem/pull/2673)
-- [x] ~~Constrain Docker base image to openSUSE Leap 15.1 [#2697](https://github.com/openSUSE/osem/pull/2697)~~ No longer applicable
-- [x] Update omniauth: 1.9.0 → 1.9.1 (patch) [#2698](https://github.com/openSUSE/osem/pull/2698)
-- [x] Allow leaving OSEM_SMTP_DOMAIN unset [#2702](https://github.com/openSUSE/osem/pull/2702)
-- [x] Remove race condition in test of splash page versioning [#2703](https://github.com/openSUSE/osem/pull/2703)
-- [x] ~~Update Ruby dependency: 2.5.8 → 2.5.9 (patch) [#2772](https://github.com/openSUSE/osem/pull/2772)~~ Rejected
-- [x] Use openSUSE Registry in production Dockerfile [#2773](https://github.com/openSUSE/osem/pull/2773)
-- [x] Add missing dependencies to production Docker image [#2774](https://github.com/openSUSE/osem/pull/2774)
-- [x] Exclude additional files from Docker images [#2775](https://github.com/openSUSE/osem/pull/2775)
-- [x] Resolve warning about testing only for specific errors [#2776](https://github.com/openSUSE/osem/pull/2776)
-- [x] Use be_successful instead of be_success [#2912](https://github.com/openSUSE/osem/pull/2912)
-- [x] Order rooms by name in the schedule [#2913](https://github.com/openSUSE/osem/pull/2913)
-- [ ] Revert skipping of passing tests [`91c87d6`](https://github.com/AndrewKvalheim/osem/commit/91c87d64805c8c998c7ae032c12f9e60f0d8fa2a)
-- [x] Update venue country name for Countries 4.2 [#2962](https://github.com/openSUSE/osem/pull/2962)
-- [x] Update UserDatatable for ajax-datatables-rails 1 [#2963](https://github.com/openSUSE/osem/pull/2963)
-- [x] Update tests of splashpage forms [#2964](https://github.com/openSUSE/osem/pull/2964)
-- [x] Fix bug in which role assignments aren’t tracked in version history [#2965](https://github.com/openSUSE/osem/pull/2965)
-- [x] Restore test of splashpage revision history [#2967](https://github.com/openSUSE/osem/pull/2967)
-- [x] Re-enable skipped tests [#2968](https://github.com/openSUSE/osem/pull/2968)
-- [x] Basic feature test of survey creation and response [#2969](https://github.com/openSUSE/osem/pull/2969)
-- [x] Correct use of Redcarpet’s safe_links_only flag [#2970](https://github.com/openSUSE/osem/pull/2970)
-- [x] Restore colors parameter of donut chart partial [#2971](https://github.com/openSUSE/osem/pull/2971)
-- [x] Update datatables for ajax-datatables-rails 1 [#2972](https://github.com/openSUSE/osem/pull/2972)
-- [x] Remove excessive word counts [#2973](https://github.com/openSUSE/osem/pull/2973)
-- [x] Minor corrections to the form labels in email settings [#2974](https://github.com/openSUSE/osem/pull/2974)
-- [x] Avoid bug in which switches always display “No” [#2976](https://github.com/openSUSE/osem/pull/2976)
-- [ ] Surveys during CFP response [`survey-during-proposal`](https://github.com/AndrewKvalheim/osem/tree/survey-during-proposal)
-- [ ] Add setting to disable email notifications of comments [`toggle-comment-notifications`](https://github.com/AndrewKvalheim/osem/tree/toggle-comment-notifications)
+This branch provides a data migration script and application configuration with
+which SeaGL can preview migration to [upstream] OSEM.
 
-To test it:
+As a base it uses [`AndrewKvalheim:future`][andrewkvalheim:future], which
+applies several prospective changes to `openSUSE:master`.
+
+## Deployment to Dokku
+
+Prerequisites:
+
+- [Dokku] with the [MySQL plugin], as in this [simple Dokku virtual machine](https://gist.github.com/AndrewKvalheim/ce7ee64e9c158f5e239307edb95a8818)
+- a database dump from SeaGL's OSEM instance
+
+Import the database:
 
 ```bash
-# Update base images
-docker-compose pull
-
-# Build the application image
-docker-compose build --build-arg "CONTAINER_USERID=$UID" osem
-
-# Initialize the database
-docker-compose run --rm osem bundle exec rake db:setup
-
-# Run tests
-docker-compose run --rm osem bundle exec rspec
-
-# Clean up
-docker-compose down --rmi 'all' --volumes
+ssh dokku@dokku mysql:create 'osem'
+ssh dokku@dokku mysql:import 'osem' < 'osem1prod.sql'
 ```
 
-[osem]: https://github.com/openSUSE/osem
+Configure the app:
+
+```bash
+ssh dokku@dokku apps:create 'osem'
+ssh dokku@dokku builder:set 'osem' selected 'herokuish'
+ssh dokku@dokku git:set 'osem' deploy-branch 'main'
+ssh dokku@dokku config:set 'osem' \
+  OSEM_DB_ADAPTER='mysql2' \
+  OSEM_EMAIL_ADDRESS='no-reply@seagl.org' \
+  OSEM_HOSTNAME='osem.seagl.org' \
+  OSEM_NAME='SeaGL' \
+  MYSQL_DATABASE_SCHEME='mysql2' \
+  RAILS_SERVE_STATIC_FILES='true' \
+  SECRET_KEY_BASE="$(</dev/urandom tr -dc 'A-Za-z0-9' | head -c 64)"
+ssh dokku@dokku mysql:link 'osem' 'osem'
+```
+
+Deploy the app and migrate data:
+
+```bash
+git remote add 'production' 'dokku@dokku:osem'
+git push 'production' 'trial:main'
+```
+
+Clean up:
+
+```bash
+ssh dokku@dokku apps:destroy 'osem'
+ssh dokku@dokku mysql:destroy 'osem'
+```
+
+[andrewkvalheim:future]: https://github.com/AndrewKvalheim/osem/tree/future#readme
+[dokku]: https://dokku.com/
+[mysql plugin]: https://github.com/dokku/dokku-mysql
+[upstream]: https://github.com/openSUSE/osem

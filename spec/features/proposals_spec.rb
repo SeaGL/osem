@@ -100,8 +100,13 @@ feature Event do
       fill_in 'event_subtitle', with: 'My event subtitle'
       select('Easy', from: 'event[difficulty_level_id]')
 
-      click_button 'Update Proposal'
-      expect(flash).to eq('Proposal was successfully updated.')
+      check 'I am local to the Pacific Northwest'
+
+      expect {
+        click_button 'Update Proposal'
+        expect(flash).to eq('Proposal was successfully updated.')
+        proposal.reload
+      }.to change { proposal.pnw }
     end
 
     scenario 'signed_in user submits a valid proposal', feature: true, js: true do
@@ -117,6 +122,8 @@ feature Event do
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       click_link 'description_link'
       fill_in 'event_description', with: 'Lorem ipsum description'
+
+      check 'I am local to the Pacific Northwest'
 
       click_button 'Create Proposal'
       expect(flash).to eq('Proposal was successfully submitted.')

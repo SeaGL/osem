@@ -46,6 +46,8 @@
         250
       words.
 
+    = f.input :pnw, label: 'I am local to the Pacific Northwest'
+
     = f.inputs 'Enable pre-registration' do
       = f.input :require_registration, label: 'Require participants to register to your event'
       - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'

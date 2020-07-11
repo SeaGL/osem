@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180522011758) do
+ActiveRecord::Schema.define(version: 20180822125509) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -179,6 +179,9 @@ ActiveRecord::Schema.define(version: 20180522011758) do
     t.string   "cfp_dates_updated_subject"
     t.text     "program_schedule_public_body"
     t.text     "cfp_dates_updated_body"
+    t.boolean  "send_on_submitted_proposal",                    default: false
+    t.string   "submitted_proposal_subject"
+    t.text     "submitted_proposal_body"
   end
 
   create_table "event_schedules", force: :cascade do |t|

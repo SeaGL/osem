@@ -3,9 +3,9 @@
   Dashboard for #{@conference.title}
 %hr
 .row
-  .col-sm-4.col-xs-4
+  .col-sm-3.col-xs-3
     .dashbox.text-center
-      %span.fa.fa-user.fa-lg
+      %span.fa.fa-users.fa-lg
       %span.fa.fa-lg
         = @total_reg
       %p
@@ -16,20 +16,33 @@
             +
             = @new_reg
 
-  .col-sm-4.col-xs-4
+  .col-sm-3.col-xs-3
+    .dashbox.text-center
+      %span.fa.fa-user.fa-lg
+      %span.fa.fa-lg
+        = @total_submitters
+      %p
+        %small
+          CFP #{'Respondent'.pluralize(@total_submitters)}
+        - if @new_submitters
+          %span.label.label-success{ title: "+#{@new_submitters} since you last logged in!" }
+            +
+            = @new_submitters
+
+  .col-sm-3.col-xs-3
     .dashbox.text-center
       %span.fa.fa-check-square.fa-lg
       %span.fa.fa-lg
         = @total_submissions
       %p
         %small
-          #{'Submission'.pluralize(@total_submissions)}
+          CFP #{'Submission'.pluralize(@total_submissions)}
         - if @new_submissions
           %span.label.label-success{ title: "+#{@new_submissions} since you last logged in!" }
             +
             = @new_submissions
 
-  .col-sm-4.col-xs-4
+  .col-sm-3.col-xs-3
     .dashbox.text-center
       %span.fa.fa-file-text.fa-lg
       %span.fa.fa-lg

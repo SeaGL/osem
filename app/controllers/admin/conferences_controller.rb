@@ -115,6 +115,20 @@ module Admin
       @total_reg = @conference.registrations.count
       @new_reg = @conference.registrations.where('created_at > ?', current_user.last_sign_in_at).count
 
+      @total_submitters = @program.events
+        .joins(:event_users)
+        .where(event_users: {event_role: 'submitter'})
+        .group('event_users.user_id')
+        .count
+        .size
+      @new_submitters = @program.events
+        .joins(:event_users)
+        .where(event_users: {event_role: 'submitter'})
+        .group('event_users.user_id')
+        .having('min(events.created_at) > ?', current_user.last_sign_in_at)
+        .count
+        .size
+
       @total_submissions = @program.events.count
       @new_submissions = @program.events
           .where('created_at > ?', current_user.last_sign_in_at).count

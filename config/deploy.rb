@@ -21,20 +21,20 @@ task :environment do
 end
 
 task setup: :environment do
-  command %[mkdir -p "#{fetch(:deploy_to)}/shared/log"]
-  command %[chmod g+rx,u+rwx "#{fetch(:deploy_to)}/shared/log"]
+  queue! %[mkdir -p "#{deploy_to}/shared/log"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
 
-  command %[mkdir -p "#{fetch(:deploy_to)}/shared/tmp"]
-  command %[chmod g+rx,u+rwx "#{fetch(:deploy_to)}/shared/tmp"]
+  queue! %[mkdir -p "#{deploy_to}/shared/tmp"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp"]
 
-  command %[mkdir -p "#{fetch(:deploy_to)}/shared/public/system"]
-  command %[chmod g+rx,u+rwx "#{fetch(:deploy_to)}/shared/public/system"]
+  queue! %[mkdir -p "#{deploy_to}/shared/public/system"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/public/system"]
 end
 
 desc 'Deploys the current version to the server.'
 task deploy: :environment do
-  on :prepare do
-    command "cd #{fetch(:deploy_to)}/current && RAILS_ENV=production bin/delayed_job stop"
+  to :prepare do
+    queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job stop"
   end
 
   deploy do
@@ -45,9 +45,9 @@ task deploy: :environment do
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
 
-    on :launch do
-      command "sudo /etc/init.d/apache2 restart"
-      #command "cd #{fetch(:deploy_to)}/current && RAILS_ENV=production bin/delayed_job start"
+    to :launch do
+      queue "sudo /etc/init.d/apache2 restart"
+      # queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job start"
     end
 
     invoke :'deploy:cleanup'
@@ -56,5 +56,5 @@ end
 
 desc 'Back ups the database'
 task :dump_db do
-  command "bundle exec rake dump_db"
+  queue "bundle exec rake dump_db"
 end

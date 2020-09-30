@@ -1,0 +1,18 @@
+[Unit]
+Description=OSEM background jobs (Delayed::Job)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=forking
+User=ubuntu
+Environment=RAILS_ENV=production
+WorkingDirectory=/srv/www/osem/current
+ExecStart=/bin/sh -c "/usr/local/rvm/wrappers/default/bundle exec /srv/www/osem/current/bin/delayed_job start"
+ExecStop=/bin/sh -c "/usr/local/rvm/wrappers/default/bundle exec /srv/www/osem/current/bin/delayed_job stop"
+TimeoutSec=120
+PIDFile=/srv/www/osem/current/tmp/pids/delayed_job.pid
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

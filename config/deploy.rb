@@ -33,10 +33,6 @@ end
 
 desc 'Deploys the current version to the server.'
 task deploy: :environment do
-  to :prepare do
-    queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job stop"
-  end
-
   deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
@@ -47,7 +43,7 @@ task deploy: :environment do
 
     to :launch do
       queue "sudo systemctl restart apache2.service"
-      # queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job start"
+      queue "sudo systemctl restart osem-delayed-job.service"
     end
 
     invoke :'deploy:cleanup'

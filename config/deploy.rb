@@ -46,7 +46,7 @@ task deploy: :environment do
     invoke :'rails:assets_precompile'
 
     to :launch do
-      queue "sudo /etc/init.d/apache2 restart"
+      queue "sudo systemctl restart apache2.service"
       # queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job start"
     end
 

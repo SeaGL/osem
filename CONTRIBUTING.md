@@ -29,28 +29,33 @@ We are using a containerized development environment.
     docker-compose build --build-arg "UID=$UID"
     ```
 
-4. Run the test suite:
+4. Initialize the database:
 
     ```bash
-    docker-compose run --rm web rspec
+    docker-compose run --rm web bundle exec rake db:setup
     ```
 
-5. Start the application at [`localhost:3000`](http://localhost:3000/):
+5. Run the test suite:
 
     ```bash
-    docker-compose run --rm web rake db:setup
+    docker-compose run --rm web bundle exec rspec
+    ```
+
+6. Start the application at [`localhost:3000`](http://localhost:3000/):
+
+    ```bash
     docker-compose up
     ```
 
-6. Create a user account in the web interface. The first user will be automatically assigned the admin role.
+7. Create a user account in the web interface. The first user will be automatically assigned the admin role.
 
-7. To open the Rails console:
+8. To open the Rails console:
 
     ```bash
-    docker-compose exec web rails console
+    docker-compose exec web bundle exec rails console
     ```
 
-8. To clean up:
+9. To clean up:
 
     ```bash
     docker-compose down --rmi 'all' --volumes

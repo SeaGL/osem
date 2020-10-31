@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ConferenceSerializer, type: :serializer do
+describe Api::V1::ConferenceSerializer, type: :serializer do
   let(:conference) do
     create(:conference, short_title: 'goto',
                         description: 'Lorem ipsum dolor sit',
@@ -8,7 +8,10 @@ describe ConferenceSerializer, type: :serializer do
                         end_date: Date.new(2014, 03, 10))
   end
 
-  let(:serializer) { ConferenceSerializer.new(conference) }
+  let(:serializer) do
+    options = { serializer: Api::V1::ConferenceSerializer, adapter: :json }
+    ActiveModelSerializers::SerializableResource.new(conference, options)
+  end
 
   context 'when the conference does not have rooms and tracks' do
     it 'correctly serializes the conference' do

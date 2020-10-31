@@ -1,8 +1,12 @@
 require 'spec_helper'
 
-describe TrackSerializer, type: :serializer do
+describe Api::V1::TrackSerializer, type: :serializer do
   let(:track) { create(:track) }
-  let(:serializer) { TrackSerializer.new(track) }
+
+  let(:serializer) do
+    options = { serializer: Api::V1::TrackSerializer, adapter: :json }
+    ActiveModelSerializers::SerializableResource.new(track, options)
+  end
 
   it 'sets guild, name, color' do
     expected_json = {

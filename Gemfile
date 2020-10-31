@@ -139,7 +139,7 @@ gem 'hoptoad_notifier', '~> 2.3'
 gem 'turbolinks'
 
 # for JSON serialization of our API
-gem 'active_model_serializers'
+gem 'active_model_serializers', '~> 0.10.10'
 
 # as icon font
 gem 'font-awesome-rails'

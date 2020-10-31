@@ -8,11 +8,11 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def index
-        render json: @conferences, serializer: ConferencesArraySerializer, callback: params['callback']
+        render json: @conferences, adapter: Api::V1::SerializerAdapter, callback: params['callback']
       end
 
       def show
-        render json: [@conference], serializer: ConferencesArraySerializer, callback: params['callback']
+        render json: [@conference], adapter: Api::V1::SerializerAdapter, callback: params['callback']
       end
     end
   end

@@ -1,7 +1,11 @@
 require 'spec_helper'
-describe EventSerializer, type: :serializer do
+describe Api::V1::EventSerializer, type: :serializer do
   let(:event) { create(:event, title: 'Some Talk', abstract: 'Lorem ipsum dolor sit amet') }
-  let(:serializer) { EventSerializer.new(event) }
+
+  let(:serializer) do
+    options = { serializer: Api::V1::EventSerializer, adapter: :json }
+    ActiveModelSerializers::SerializableResource.new(event, options)
+  end
 
   context 'event does not have date, room and tracks assigned' do
     it 'sets guid, title, length, abstract and type' do

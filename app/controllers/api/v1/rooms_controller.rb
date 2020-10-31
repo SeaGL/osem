@@ -8,11 +8,13 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def index
-        if @conference
-          respond_with @conference.venue ? @conference.venue.rooms : Room.none, callback: params[:callback]
-        else
-          respond_with Room.all, callback: params[:callback]
-        end
+        rooms = if @conference
+                  @conference.venue ? @conference.venue.rooms : Room.none
+                else
+                  Room.all
+                end
+
+        respond_with rooms, adapter: :json, callback: params[:callback]
       end
     end
   end

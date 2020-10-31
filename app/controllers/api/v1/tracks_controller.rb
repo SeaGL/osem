@@ -10,7 +10,7 @@ module Api
       def index
         tracks = @conference ? @conference.program.tracks : Track.all
 
-        respond_with tracks, callback: params[:callback]
+        respond_with tracks, adapter: :json, callback: params[:callback]
       end
     end
   end

@@ -1,7 +1,11 @@
 require 'spec_helper'
-describe SpeakerSerializer, type: :serializer do
+describe Api::V1::SpeakerSerializer, type: :serializer do
   let(:speaker) { create(:user, name: 'John Doe', affiliation: 'JohnDoesInc', biography: nil) }
-  let(:serializer) { SpeakerSerializer.new(speaker) }
+
+  let(:serializer) do
+    options = { serializer: Api::V1::SpeakerSerializer, adapter: :json, root: 'speaker' }
+    ActiveModelSerializers::SerializableResource.new(speaker, options)
+  end
 
   context 'speaker does not have biography' do
     it 'sets name and affiliation' do

@@ -66,8 +66,12 @@ Osem::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Set the detault url and from address for action mailer
-  config.action_mailer.default_url_options = {host: ENV['OSEM_HOSTNAME'] || 'localhost:3000'}
+  # Provide a default origin for absolute URLs (Pending rails/rails#39566)
+  Rails.application.routes.default_url_options[:host] = ENV['OSEM_HOSTNAME'] || 'localhost:3000'
+  config.action_controller.default_url_options = Rails.application.routes.default_url_options
+  config.action_mailer.default_url_options = Rails.application.routes.default_url_options
+
+  # Set the from address for action mailer
   config.action_mailer.default_options = {from: ENV['OSEM_EMAIL_ADDRESS']}
 
   # Set the smtp configuration of your service provider

@@ -67,7 +67,7 @@ Osem::Application.configure do
   config.active_support.deprecation = :notify
 
   # Set the detault url and from address for action mailer
-  config.action_mailer.default_url_options = {host: 'osem.seagl.org'}
+  config.action_mailer.default_url_options = {host: ENV['OSEM_HOSTNAME'] || 'localhost:3000'}
   config.action_mailer.default_options = {from: 'osem@seagl.org'}
 
   # Set the smtp configuration of your service provider
@@ -78,7 +78,7 @@ Osem::Application.configure do
     domain: ENV['OSEM_SMTP_DOMAIN'],
     user_name:ENV['OSEM_SMTP_USERNAME'],
     password: ENV['OSEM_SMTP_PASSWORD'],
-    authentication: :plain,
+    authentication: ENV['OSEM_SMTP_AUTHENTICATION'].try(:to_sym),
     enable_starttls_auto: true,
   }
 

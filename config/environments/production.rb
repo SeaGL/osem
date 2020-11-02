@@ -84,7 +84,7 @@ Osem::Application.configure do
     password: ENV['OSEM_SMTP_PASSWORD'],
     authentication: ENV['OSEM_SMTP_AUTHENTICATION'].try(:to_sym),
     enable_starttls_auto: true,
-  }
+  }.compact
 
   # Set the secret_key_base from the env, if not set by any other means
   config.secret_key_base ||= ENV['SECRET_KEY_BASE']

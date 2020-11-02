@@ -147,6 +147,10 @@ Osem::Application.routes.draw do
       resources :speakers, only: :index
       resources :events, only: :index
     end
+
+    namespace :v2 do
+      resources :conferences, only: :show
+    end
   end
 
   get '/admin' => redirect('/admin/conferences')

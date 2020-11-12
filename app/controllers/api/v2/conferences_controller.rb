@@ -5,6 +5,8 @@ module Api
       respond_to :json
 
       def show
+        headers['Access-Control-Allow-Origin'] = '*'
+
         render json: @conference, adapter: :json_api, include: ['**']
       end
     end

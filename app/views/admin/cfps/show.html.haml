@@ -53,23 +53,23 @@
 
         %dt.tall-definition-label Speakers todo: remind to fill out bio
         %dd#speaker_proposals_req_bio
-          - @program.speaker_proposals_req_bio ? 'Yes' : 'No'
+          = @program.speaker_proposals_req_bio ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add subtitle
         %dd#speaker_proposals_req_subtitle
-          - @program.speaker_proposals_req_subtitle ? 'Yes' : 'No'
+          = @program.speaker_proposals_req_subtitle ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add a commercial
         %dd#speaker_proposals_req_commercial
-          - @program.speaker_proposals_req_commercial ? 'Yes' : 'No'
+          = @program.speaker_proposals_req_commercial ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add track
         %dd#speaker_proposals_req_track
-          - @program.speaker_proposals_req_track ? 'Yes' : 'No'
+          = @program.speaker_proposals_req_track ? 'Yes' : 'No'
 
         %dt.tall-definition-label Speakers todo: remind to add difficulty level
         %dd#speaker_proposals_req_difficulty_level
-          - @program.speaker_proposals_req_difficulty_level ? 'Yes' : 'No'
+          = @program.speaker_proposals_req_difficulty_level ? 'Yes' : 'No'
   .row
     .col-md-12.text-right
       = link_to(edit_admin_conference_program_cfp_path(@conference.short_title), class: 'btn btn-primary') do

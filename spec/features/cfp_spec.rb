@@ -26,6 +26,13 @@ feature Conference do
       page.execute_script(
       "$('#registration-period-end-datepicker').val('#{(today + 6).strftime('%d/%m/%Y')}')")
 
+      choose 'cfp[program_attributes][speaker_proposals_req_speaker_event_reg]', option: 'true'
+      choose 'cfp[program_attributes][speaker_proposals_req_bio]', option: 'true'
+      choose 'cfp[program_attributes][speaker_proposals_req_subtitle]', option: 'true'
+      choose 'cfp[program_attributes][speaker_proposals_req_commercial]', option: 'false'
+      choose 'cfp[program_attributes][speaker_proposals_req_track]', option: 'false'
+      choose 'cfp[program_attributes][speaker_proposals_req_difficulty_level]', option: 'false'
+
       click_button 'Create Cfp'
 
       # Validations
@@ -33,6 +40,12 @@ feature Conference do
           .to eq('Call for papers successfully created.')
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
       expect(find('#end_date').text).to eq((today + 6).strftime('%A, %B %-d. %Y'))
+      expect(page).to have_content('Speakers todo: remind to register for event Yes')
+      expect(page).to have_content('Speakers todo: remind to fill out bio Yes')
+      expect(page).to have_content('Speakers todo: remind to add subtitle Yes')
+      expect(page).to have_content('Speakers todo: remind to add a commercial No')
+      expect(page).to have_content('Speakers todo: remind to add track No')
+      expect(page).to have_content('Speakers todo: remind to add difficulty level No')
 
       expect(Cfp.count).to eq(expected_count)
     end
@@ -60,6 +73,14 @@ feature Conference do
       page.execute_script(
         "$('#registration-period-end-datepicker').val('#{(today + 14).strftime('%d/%m/%Y')}')")
 
+      # Set options
+      choose 'cfp[program_attributes][speaker_proposals_req_speaker_event_reg]', option: 'true'
+      choose 'cfp[program_attributes][speaker_proposals_req_bio]', option: 'true'
+      choose 'cfp[program_attributes][speaker_proposals_req_subtitle]', option: 'false'
+      choose 'cfp[program_attributes][speaker_proposals_req_commercial]', option: 'false'
+      choose 'cfp[program_attributes][speaker_proposals_req_track]', option: 'true'
+      choose 'cfp[program_attributes][speaker_proposals_req_difficulty_level]', option: 'true'
+
       click_button 'Update Cfp'
 
       # Validations
@@ -67,6 +88,12 @@ feature Conference do
           .to eq('Call for papers successfully updated.')
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
       expect(find('#end_date').text).to eq((today + 14).strftime('%A, %B %-d. %Y'))
+      expect(page).to have_content('Speakers todo: remind to register for event Yes')
+      expect(page).to have_content('Speakers todo: remind to fill out bio Yes')
+      expect(page).to have_content('Speakers todo: remind to add subtitle No')
+      expect(page).to have_content('Speakers todo: remind to add a commercial No')
+      expect(page).to have_content('Speakers todo: remind to add track Yes')
+      expect(page).to have_content('Speakers todo: remind to add difficulty level Yes')
       expect(Cfp.count).to eq(expected_count)
     end
   end

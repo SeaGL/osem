@@ -3,7 +3,7 @@
 class Cfp < ActiveRecord::Base
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
   belongs_to :program
-  accepts_nested_attributes_for :program
+  accepts_nested_attributes_for :program, update_only: true
 
   validates :program_id, presence: true
   validates :start_date, :end_date, presence: true
@@ -54,6 +54,13 @@ class Cfp < ActiveRecord::Base
   def remaining_days(date = Date.today)
     result = (end_date - date).to_i
     result > 0 ? result : 0
+  end
+
+  # Workaround for https://stackoverflow.com/q/6346134
+  def program_attributes=(attributes)
+    self.program = Program.find(attributes[:id]) if attributes[:id].present?
+
+    assign_nested_attributes_for_one_to_one_association(:program, attributes) # super
   end
 
   private

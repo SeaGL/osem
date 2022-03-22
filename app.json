@@ -33,5 +33,10 @@
     {
       "plan": "sendgrid"
     }
-  ]
+  ],
+  "healthchecks": {
+    "web": [
+      { "type": "startup", "path": "/", "initialDelay": 5, "attempts": 6 }
+    ]
+  }
 }

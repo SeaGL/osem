@@ -230,10 +230,6 @@ gem 'dalli'
 
 gem 'icalendar'
 
-# Whitelist and review outgoing mail in trial environment
-gem 'letter_opener'
-gem 'mailsafe'
-
 group :development do
   # for static code analisys
   gem 'rubocop', require: false
@@ -241,7 +237,7 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'haml_lint'
   # to open mails
-  # gem 'letter_opener'
+  gem 'letter_opener'
   gem 'letter_opener_web'
   # as deployment system
   gem 'mina'

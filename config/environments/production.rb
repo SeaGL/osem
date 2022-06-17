@@ -70,6 +70,18 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  config.action_mailer.default_url_options = { host: ENV.fetch('OSEM_HOSTNAME', 'localhost:3000') }
+  config.action_mailer.smtp_settings = {
+    address:              ENV.fetch('OSEM_SMTP_ADDRESS', 'localhost'),
+    port:                 ENV.fetch('OSEM_SMTP_PORT', 25),
+    user_name:            ENV.fetch('OSEM_SMTP_USERNAME', nil),
+    password:             ENV.fetch('OSEM_SMTP_PASSWORD', nil),
+    authentication:       ENV.fetch('OSEM_SMTP_AUTHENTICATION', 'plain').try(:to_sym),
+    domain:               ENV.fetch('OSEM_SMTP_DOMAIN', nil),
+    enable_starttls_auto: ENV.fetch('OSEM_SMTP_ENABLE_STARTTLS_AUTO', nil),
+    openssl_verify_mode:  ENV.fetch('OSEM_SMTP_OPENSSL_VERIFY_MODE', nil)
+  }.compact
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end

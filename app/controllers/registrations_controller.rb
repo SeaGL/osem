@@ -3,6 +3,12 @@
 class RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create]
 
+  def create
+    super
+
+    Mailbot.audit_registration_mail(@user).deliver_later if @user.persisted?
+  end
+
   protected
 
   def after_update_path_for(resource)

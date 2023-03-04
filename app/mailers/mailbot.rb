@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class Mailbot < ActionMailer::Base
+  def audit_registration_mail(user)
+    recipient = ENV.fetch('AUDIT_REGISTRATION_EMAIL', nil)
+    return unless recipient
+
+    mail(to:      recipient,
+         from:    Devise.mailer_sender,
+         subject: "New user: #{user.username}",
+         body:    url_for(user))
+  end
+
   def registration_mail(conference, user)
     mail(to:      user.email,
          from:    conference.contact.email,

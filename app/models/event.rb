@@ -233,7 +233,6 @@ class Event < ApplicationRecord
     {
       registered:       speakers.all? { |speaker| program.conference.user_registered? speaker },
       surveys:          (surveys.all? { |survey| survey.replied?(submitter) } if surveys.present?),
-      commercials:      commercials.any?,
       biographies:      speakers.all? { |speaker| !speaker.biography.blank? },
       subtitle:         !subtitle.blank?,
       track:            (!track.blank? unless program.tracks.empty?),

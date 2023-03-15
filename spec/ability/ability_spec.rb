@@ -237,8 +237,8 @@ describe 'User' do
 
       it{ should_not be_able_to(:manage, event_unconfirmed) }
 
-      it{ should be_able_to(:create, user_event_with_cfp.commercials.new) }
-      it{ should be_able_to(:manage, user_commercial) }
+      it{ should_not be_able_to(:create, user_event_with_cfp.commercials.new) }
+      it{ should_not be_able_to(:manage, user_commercial) }
       it{ should_not be_able_to(:manage, commercial_event_unconfirmed) }
 
       it{ should be_able_to(:new, Track.new(program: program_with_call_for_tracks)) }

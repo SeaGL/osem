@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class RegistrationsController < Devise::RegistrationsController
+  prepend_before_action :require_account_creation, only: [:create, :new]
   prepend_before_action :check_captcha, only: [:create]
 
   def create
@@ -42,6 +43,13 @@ class RegistrationsController < Devise::RegistrationsController
       self.resource = resource_class.new sign_up_params
       resource.validate # Look for any other validation errors besides Recaptcha
       respond_with_navigational(resource) { render :new }
+    end
+  end
+
+  def require_account_creation
+    if Feature.inactive?(:account_creation)
+      flash[:error] = 'Account sign-up is not currently open'
+      redirect_to root_path, status: :see_other
     end
   end
 end

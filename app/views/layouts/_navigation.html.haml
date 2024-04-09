@@ -32,16 +32,17 @@
                 = render 'layouts/user_menu'
       - else
         %ul.nav.navbar-nav.navbar-right
-          - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
-            %li{class: "#{active_nav_li(new_ichain_registration_path('user'))}"}
-              = link_to(new_ichain_registration_path('user')) do
-                %span.fa-solid.fa-heart
-                Sign Up
-          - else
-            %li{class: "#{active_nav_li(new_registration_path('user'))}"}
-              = link_to(new_registration_path('user')) do
-                %span.fa-solid.fa-heart
-                Sign Up
+          - if Feature.active?(:account_creation)
+            - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
+              %li{class: "#{active_nav_li(new_ichain_registration_path('user'))}"}
+                = link_to(new_ichain_registration_path('user')) do
+                  %span.fa-solid.fa-heart
+                  Sign Up
+            - else
+              %li{class: "#{active_nav_li(new_registration_path('user'))}"}
+                = link_to(new_registration_path('user')) do
+                  %span.fa-solid.fa-heart
+                  Sign Up
           %li.dropdown.visible-desktop
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
               %span.fa-solid.fa-user

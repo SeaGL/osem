@@ -14,7 +14,7 @@ feature Commercial do
   end
 
   before(:each) do
-    sign_in participant
+    sign_in organizer
   end
 
   scenario 'adds a valid commercial of an event', feature: true, js: true do

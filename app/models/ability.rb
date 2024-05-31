@@ -110,9 +110,6 @@ class Ability
       event.users.include?(user)
     end
 
-    # can manage the commercials of their own events
-    can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
-
     # can view and reply to a survey
     can [:index, :show, :reply], Survey, surveyable_type: 'Conference'
     can [:index, :show, :reply], Survey, surveyable_type: 'Registration', surveyable_id: user.registrations.pluck(:conference_id)
@@ -153,6 +150,8 @@ class Ability
       can :manage, Registration, conference_id: conf_ids_for_organizer
       # To access conference/proposals
       can :manage, Event, program: { conference_id: conf_ids_for_organizer }
+      can :manage, Commercial, commercialable_type: 'Event',
+                               commercialable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
       # To access comment link in menu bar
       can :index, Comment, commentable_type: 'Event',
                            commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)

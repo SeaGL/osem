@@ -135,8 +135,6 @@ class AdminAbility
     can :manage, EventType, program: { conference_id: conf_ids }
     can :manage, Track, program: { conference_id: conf_ids }
     can :manage, DifficultyLevel, program: { conference_id: conf_ids }
-    can :manage, Commercial, commercialable_type: 'Event',
-                             commercialable_id:   Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
     can :manage, Venue, conference_id: conf_ids
     can :manage, Commercial, commercialable_type: 'Venue',
                              commercialable_id:   Venue.where(conference_id: conf_ids).pluck(:id)

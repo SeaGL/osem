@@ -56,14 +56,7 @@
             = canceled_replacement_event_label(@event, @event_schedule)
             = replacement_event_notice(@event_schedule)
 
-          - if @event.commercials.empty?
-            %h5.text-warning
-              No video of the event yet, sorry!
-              - unless @conference.commercials.empty?
-                Meanwhile...
-            - unless @conference.commercials.empty?
-              = render partial: 'shared/media_items', locals: { commercials: @conference.commercials }
-          - else
+          - unless @event.commercials.empty?
             %p
             = render partial: 'shared/media_items', locals: { commercials: @event.commercials }
       .row

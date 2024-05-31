@@ -1,18 +1,23 @@
-[![Build Status](https://github.com/openSUSE/osem/actions/workflows/spec.yml/badge.svg?branch=master)](https://github.com/openSUSE/osem/actions)
-[![Code Climate](https://codeclimate.com/github/openSUSE/osem.png)](https://codeclimate.com/github/openSUSE/osem)
-[![codecov](https://codecov.io/gh/opensuse/osem/branch/master/graph/badge.svg)](https://codecov.io/gh/opensuse/osem)
-[![Dependencies](https://badges.depfu.com/badges/8fcd630367d20f5b48d393774c00c5fd/overview.svg)](https://depfu.com/repos/openSUSE/osem)
+# About this branch
 
-# Open Source Event Manager - [osem.io](https://osem.io)
-![OSEM Logo](doc/osem-logo.png)
+Our goal is to run [upstream] OSEM without modifications to its codebase. We currently still make a few modifications in this interim branch:
 
-An event management tool tailored to Free and Open Source Software conferences.
+- [ ] Fix access to the version history of organization-level roles [#2654](https://github.com/openSUSE/osem/pull/2654)
+- [ ] Add setting to disable email notifications of comments [#3059](https://github.com/openSUSE/osem/pull/3059)
+- [ ] Add surveys during CFP response [#3058](https://github.com/openSUSE/osem/pull/3058)
+- [ ] Don’t automatically select a difficulty level [#3140](https://github.com/openSUSE/osem/pull/3140)
+- [ ] Corrections to proposal help text [#3243](https://github.com/openSUSE/osem/pull/3243)
+- [ ] Resolve inability to schedule events [#3244](https://github.com/openSUSE/osem/pull/3244)
+- [ ] Restrict commercial management to organizers [`hide-commercials`](https://github.com/AndrewKvalheim/osem/tree/hide-commercials)
+- [ ] Add notifications of user registrations [`982407e`](https://github.com/SeaGL/osem/commit/982407e68cf8f6726ab5bb96464b2cdf68286ec6)
+- [ ] Configure deployment to Dokku [`0ff909a`](https://github.com/SeaGL/osem/commit/0ff909a5fbb6830dbaf80b2d2a120b4acd287d85)
+- [ ] Work around [titusfortner/webdrivers#254](https://github.com/titusfortner/webdrivers/issues/254) [`347c929`](https://github.com/SeaGL/osem/commit/347c929973fc906994b2661752aeb1c4a1c6f33c)
+- [ ] Allow disabling of account creation via environment variable [`0f9715a`](https://github.com/SeaGL/osem/commit/0f9715a659c0246f7ebff3c3d2a336e5bc58eccd)
 
-## Installation
-Please refer to our [installation guide](INSTALL.md).
+These divergences from upstream should be seen as a to-do list, where completing an item means either solving its need in a general way upstream, or adjusting our procedures to accommodate upstream’s existing capabilities or limitations.
 
-## How to contribute to OSEM
-Please refer to our [contributing guide](CONTRIBUTING.md).
+## Guidelines
 
-## Contact
-GitHub issues are the primary way for communicating about specific proposed changes to this project. If you have other questions feel free to subscribe to the [opensuse-web@opensuse.org](http://lists.opensuse.org/opensuse-web/) mailinglist, all OSEM contributors are on that list! Additionally you can use #osem channel on [libera.chat IRC](https://libera.chat).
+Don’t develop on this branch. It follows upstream by regularly **rebasing** the above modifications. When a modification is no longer necessary, it will be dropped during the rebase. When there are no remaining modifications, this branch will be deleted.
+
+[upstream]: https://github.com/openSUSE/osem

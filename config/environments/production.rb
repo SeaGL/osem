@@ -102,8 +102,12 @@ Rails.application.configure do
     password:             ENV.fetch('OSEM_SMTP_PASSWORD', nil),
     authentication:       ENV.fetch('OSEM_SMTP_AUTHENTICATION', 'plain').try(:to_sym),
     domain:               ENV.fetch('OSEM_SMTP_DOMAIN', nil),
+    enable_starttls:      ENV.fetch('OSEM_SMTP_ENABLE_STARTTLS', nil),
     enable_starttls_auto: ENV.fetch('OSEM_SMTP_ENABLE_STARTTLS_AUTO', nil),
-    openssl_verify_mode:  ENV.fetch('OSEM_SMTP_OPENSSL_VERIFY_MODE', nil)
+    openssl_verify_mode:  ENV.fetch('OSEM_SMTP_OPENSSL_VERIFY_MODE', nil),
+    tls:                  ENV['OSEM_SMTP_TLS'].present?,
+    open_timeout:         ENV.fetch('OSEM_SMTP_OPEN_TIMEOUT', nil),
+    read_timeout:         ENV.fetch('OSEM_SMTP_READ_TIMEOUT', nil)
   }.compact
 
   # Use memcache cluster as cache store in production
